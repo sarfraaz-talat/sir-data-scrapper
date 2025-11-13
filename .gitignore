@@ -68,3 +68,9 @@ Thumbs.db
 # Environment variables
 .env
 .env.local
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+.eggs/

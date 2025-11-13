@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sir-data-scraper"
+version = "0.1.0"
+description = "Automated ETL pipeline for extracting, parsing, and structuring voter roll data from the Election Commission of India's Search-in-Roll (SIR) portal"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "SIR Data Scraper Contributors"}
+]
+keywords = ["voter", "election", "scraper", "etl", "india", "pdf", "ocr"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+]
+
+dependencies = [
+    "playwright>=1.40.0",
+    "aiohttp>=3.9.0",
+    "aiofiles>=23.2.0",
+    "pdfplumber>=0.10.0",
+    "PyMuPDF>=1.23.0",
+    "pytesseract>=0.3.10",
+    "Pillow>=10.2.0",
+    "deep-translator>=1.11.0",
+    "SQLAlchemy>=2.0.23",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "flake8>=6.0.0",
+]
+
+[project.scripts]
+sir-scraper = "main:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/sir-data-scrapper"
+Documentation = "https://github.com/yourusername/sir-data-scrapper#readme"
+Repository = "https://github.com/yourusername/sir-data-scrapper"
+Issues = "https://github.com/yourusername/sir-data-scrapper/issues"
+

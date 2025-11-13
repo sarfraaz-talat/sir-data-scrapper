@@ -282,5 +282,20 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contributing
 
-[Add contribution guidelines here]
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Releases
+
+See [RELEASE.md](RELEASE.md) for the release process.
+
+Releases are automated via GitHub Actions:
+- Push a tag (e.g., `v1.0.0`) to trigger release workflow
+- CI tests run automatically on push/PR
+- GitHub releases created automatically from tags
 

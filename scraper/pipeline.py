@@ -29,7 +29,8 @@ class Pipeline:
         translator: Optional[VoterTranslator],
         db_loader: DBLoader,
         checkpoint_manager: CheckpointManager,
-        max_parse_workers: int = 4
+        max_parse_workers: int = 4,
+        max_translate_workers: int = 4
     ):
         self.logger = logger
         self.downloader = downloader
@@ -39,6 +40,11 @@ class Pipeline:
         self.db_loader = db_loader
         self.checkpoint = checkpoint_manager
         self.max_parse_workers = max_parse_workers
+        self.max_translate_workers = max_translate_workers
+        
+        # Update translator workers if translator exists
+        if self.translator:
+            self.translator.max_workers = max_translate_workers
     
     async def stage1_download(
         self,
@@ -256,9 +262,8 @@ class Pipeline:
         
         # Translate if enabled
         if self.translator and self.translator.enabled:
-            self.logger.info("Translating records...")
+            self.logger.info(f"Translating records using {self.max_translate_workers} workers...")
             records = self.translator.translate_batch(records)
-            self.logger.info(f"✓ Translation complete")
         
         # Store in database
         new_count, updated_count = self.db_loader.batch_insert(records)

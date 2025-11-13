@@ -32,7 +32,8 @@ class SIRScraper:
         resume: bool = False,
         db_path: str = "data/voters.db",
         headless: bool = True,
-        max_parse_workers: int = 4
+        max_parse_workers: int = 4,
+        max_translate_workers: int = 4
     ):
         self.state_filter = state_filter
         self.max_assemblies = max_assemblies
@@ -41,6 +42,7 @@ class SIRScraper:
         self.resume = resume
         self.db_path = db_path
         self.max_parse_workers = max_parse_workers
+        self.max_translate_workers = max_translate_workers
         
         # Initialize components
         self.logger = Logger(save_logs=save_logs)
@@ -48,7 +50,7 @@ class SIRScraper:
         self.downloader = Downloader(self.logger, max_concurrent=5)  # Parallel downloads
         self.extractor = Extractor(self.logger)
         self.parser = Parser(self.logger, use_ocr=True)
-        self.translator = VoterTranslator(self.logger, enabled=translate) if translate else None
+        self.translator = VoterTranslator(self.logger, enabled=translate, max_workers=max_translate_workers) if translate else None
         self.db_loader = DBLoader(db_path)
         self.checkpoint = CheckpointManager()
         
@@ -61,7 +63,8 @@ class SIRScraper:
             self.translator,
             self.db_loader,
             self.checkpoint,
-            max_parse_workers=max_parse_workers
+            max_parse_workers=max_parse_workers,
+            max_translate_workers=max_translate_workers
         )
     
     async def run(self):
@@ -205,6 +208,13 @@ def main():
         help='Number of parallel workers for parsing (default: 4)'
     )
     
+    parser.add_argument(
+        '--translate-workers',
+        type=int,
+        default=4,
+        help='Number of parallel workers for translation (default: 4)'
+    )
+    
     args = parser.parse_args()
     
     # Determine headless mode
@@ -219,7 +229,8 @@ def main():
         resume=args.resume,
         db_path=args.db,
         headless=headless,
-        max_parse_workers=args.parse_workers
+        max_parse_workers=args.parse_workers,
+        max_translate_workers=args.translate_workers
     )
     
     # Run async pipeline
